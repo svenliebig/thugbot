@@ -205,13 +205,12 @@ module.exports = (robot) ->
 
 	mathjs = require("mathjs")
 
-	module.exports = (robot) ->
-		robot.respond /(rechne|berechne|calculate|convert|konvertiere|mathe|math|machmirdenstreber)( me)? (.*)/i, (msg) ->
-			try
-				result = mathjs.eval msg.match[3]
-				msg.send "#{result}"
-			catch error
-				msg.send error.message || 'Bischt du dumm oder was?'
+	robot.respond /(rechne|berechne|calculate|convert|konvertiere|mathe|math|machmirdenstreber)( me)? (.*)/i, (msg) ->
+		try
+			result = mathjs.eval msg.match[3]
+			msg.send "#{result}"
+		catch error
+			msg.send error.message || 'Bischt du dumm oder was?'
 
-  robot.respond /(nachhilfe)|(mathehilfe)|(mathhelp)/i, (msg) ->
-    res.reply "Hier sind meine Funktionen!\n\nWurzel:	sqrt(x)\n Faktor:	pow(x, y)\n Logarithmus:	log(x,y)\n\nWird erweitert, habe gerade keinen Bock weiter zu machen."
+  	robot.respond /(nachhilfe)|(mathehilfe)|(mathhelp)/i, (msg) ->
+    	res.reply "Hier sind meine Funktionen!\n\nWurzel:	sqrt(x)\n Faktor:	pow(x, y)\n Logarithmus:	log(x,y)\n\nWird erweitert, habe gerade keinen Bock weiter zu machen."
