@@ -110,14 +110,16 @@ module.exports = (robot) ->
   # Regexbefehle für die Hear Section     # #
   # # # # # # # # # # # # # # # # # # # # # #
   avadakedabra 	= /avada kedabra/i
-  thuglife 		= /thug life/i
+  thuglife 			= /thug life/i
   expiliarmus 	= /expiliarmus/i
   expiliarmus 	= /expiliarmus/i
-  dislike 		= /dislike/i
-  winows 		= /winows/i
-  einzigste 	= /einzigste/i
-  lebenshit 	= /(leben)(.)+(scheiße)/i
-  operation 	= /(\d+\.?\d*)(\s)*(\+|\-|\/|\*)(\s)*(\d+\.?\d*)/i
+  dislike 			= /dislike/i
+  winows 				= /winows/i
+  einzigste 		= /einzigste/i
+  lebenshit 		= /(leben)(.)+(scheiße)/i
+  operation 		= /(\d+\.?\d*)(\s)*(\+|\-|\/|\*)(\s)*(\d+\.?\d*)/i
+  newsarten			= /^(sport|league|it)$/i
+  globalflag    = false
 
   robot.hear avadakedabra, (res) ->
     res.send "EXPILIARMUS! :nerd_face:"
@@ -148,6 +150,28 @@ module.exports = (robot) ->
     zahl2 = msg.match[5]
     msg.send "Ich soll #{zahl1} #{operant} #{zahl2} rechnen"
 
+  robot.hear newsarten, (msg) ->
+    art = undefined
+    if globalflag
+      art = msg.match[1]
+      switch art
+        when 'sport'
+          msg.send 'hier nachrichten sport einfügen'
+          return globalflag = false
+        when 'league'
+          msg.send 'hier nachrichten Leauge einfügen'
+          return globalflag = false
+        when 'it'
+          msg.send 'hier nachrichten IT einfügen'
+          return globalflag = false
+        else
+          msg.send 'Keine Nachrichten zu diesem Thema gefunden.'
+          return globalflag = false
+    else
+      msg.send 'KEIN FLAG KEIN TEXT'
+      return globalflag = false
+    return
+
   ### 
     @title 	Custom Respond Scripts 
     @author Sven Liebig 
@@ -158,19 +182,19 @@ module.exports = (robot) ->
   # # # # # # # # # # # # # # # # # # # # # #
   # Regexbefehle für die Hear Section     # #
   # # # # # # # # # # # # # # # # # # # # # #
-  yousuck 		= /you suck/i
-  countspells 	= /(spells spoken)|(how many spells)/i
-  justwhy		= /why (.*)/i
-  youstupid		= /you (silly|stupid|facking|fucking|grumpy|fat) (.*)/i
-  bitch			= /bitch/i
-  hoe 			= /hoe/i
-  suckdicks		= /suck dicks/i
-  wherearewe	= /(where are we)|(room)/i
-  thanks		= /(thx)|(danke)|(thanks)|(dank dir)|(thank you)/i
-  thankscount	= /how many thx/i
-  uptime		= /(uptime)|(onlinetime)|(how long are you online)|(onlinezeit)|(wielange bist du online)/i
-  pr0gramm		= /(pr0)|(pr0gramm)|(würde)|(fliesentisch)/i
-
+  yousuck     = /you suck/i
+  countspells   = /(spells spoken)|(how many spells)/i
+  justwhy    = /why (.*)/i
+  youstupid    = /you (silly|stupid|facking|fucking|grumpy|fat) (.*)/i
+  bitch      = /bitch/i
+  hoe       = /hoe/i
+  suckdicks    = /suck dicks/i
+  wherearewe  = /(where are we)|(room)/i
+  thanks    = /(thx)|(danke)|(thanks)|(dank dir)|(thank you)/i
+  thankscount  = /how many thx/i
+  uptime    = /(uptime)|(onlinetime)|(how long are you online)|(onlinezeit)|(wielange bist du online)/i
+  pr0gramm    = /(pr0)|(pr0gramm)|(würde)|(fliesentisch)/i
+  news       = /(news|nachrichten|meldungen)(\s)?(\w*)/i
   robot.respond yousuck, (res) ->
     res.send ".. no you suck."
 
@@ -222,18 +246,29 @@ module.exports = (robot) ->
       seconds = Math.floor((totaltime % 60))
       res.reply "I'm on for #{hours} hours, #{minutes} minutes and #{seconds} seconds."
 
+  robot.respond pr0gramm, (res) ->
+    max = 107400
+    min = 1
+    pr0 = Math.floor(Math.random() * (max - min) + min)
+    res.reply "Darf es ein bisschen Pr0 sein?\n Nimm das: http://www.pr0gramm.com/new/#{pr0} :)"
+
+  robot.respond news, (res) ->
+    what = res.match[3];
+    res.reply "regexflag: #{what}"
+    switch what
+      when "sport"
+        res.reply "hier nachrichten für sport einfügen"
+        globalflag = false
+      else
+        res.reply "Welche Nachrichten?"
+        globalflag = true
+
 # # TOTAL TIME COUNTER - by Sven Liebig https://github.com/Sly321 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
   timecalc = setInterval () ->
     totaltime = robot.brain.get('totaltime') * 1 or 0
     robot.brain.set 'totaltime', totaltime+1
   , 1000
-
-  robot.respond pr0gramm, (res) ->
-    max = 107400
-    min = 1
-    pr0 = Math.floor(Math.random() * (max - min) + min)
-    res.reply "Darf es ein bisschen Pr0 sein?\n Nimm das: http://www.pr0gramm.com/new/#{pr0} :)"
  
  ###
  # # CALCULATOR AND CONVERTER POWERED BY MATHJS - by Cedric Laier github.com/FICKDICHISTMIREGAL # # # # # # # # #
