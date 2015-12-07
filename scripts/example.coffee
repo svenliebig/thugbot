@@ -112,12 +112,11 @@ module.exports = (robot) ->
   avadakedabra 	= /avada kedabra/i
   thuglife 			= /thug life/i
   expiliarmus 	= /expiliarmus/i
-  expiliarmus 	= /expiliarmus/i
   dislike 			= /dislike/i
   winows 				= /winows/i
   einzigste 		= /einzigste/i
   lebenshit 		= /(leben)(.)+(scheiße)/i
-  operation 		= /(\d+\.?\d*)(\s)*(\+|\-|\/|\*)(\s)*(\d+\.?\d*)/i
+  operation 		= /(^|\s)(\d+\.?\d*)(\s)*(\+|\-|\/|\*)(\s)*(\d+\.?\d*)($|\s)/i
   newsarten			= /^(sport|league|it)$/i
   globalflag    = false
 
@@ -145,10 +144,12 @@ module.exports = (robot) ->
     msg.send "Man reiche dem Herr'n die :gun:"
 
   robot.hear operation, (msg) ->
-    zahl1 = msg.match[1]
-    operant = msg.match[3]
-    zahl2 = msg.match[5]
-    msg.send "Ich soll #{zahl1} #{operant} #{zahl2} rechnen"
+    zahl1 = msg.match[2]
+    operant = msg.match[4]
+    zahl2 = msg.match[6]
+    msg.send "Berechne #{zahl1} #{operant} #{zahl2} ="
+    result = mathjs.eval zahl1+operant+zahl2
+    msg.send "#{result}"
 
   robot.hear newsarten, (msg) ->
     art = undefined
