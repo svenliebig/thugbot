@@ -182,19 +182,20 @@ module.exports = (robot) ->
   # # # # # # # # # # # # # # # # # # # # # #
   # Regexbefehle für die Hear Section     # #
   # # # # # # # # # # # # # # # # # # # # # #
-  yousuck     = /you suck/i
-  countspells   = /(spells spoken)|(how many spells)/i
-  justwhy    = /why (.*)/i
+  yousuck      = /you suck/i
+  countspells  = /(spells spoken)|(how many spells)/i
+  justwhy      = /why (.*)/i
   youstupid    = /you (silly|stupid|facking|fucking|grumpy|fat) (.*)/i
-  bitch      = /bitch/i
-  hoe       = /hoe/i
+  bitch        = /bitch/i
+  hoe          = /hoe/i
   suckdicks    = /suck dicks/i
-  wherearewe  = /(where are we)|(room)/i
-  thanks    = /(thx)|(danke)|(thanks)|(dank dir)|(thank you)/i
+  wherearewe   = /(where are we)|(room)/i
+  thanks       = /(thx)|(danke)|(thanks)|(dank dir)|(thank you)/i
   thankscount  = /how many thx/i
-  uptime    = /(uptime)|(onlinetime)|(how long are you online)|(onlinezeit)|(wielange bist du online)/i
-  pr0gramm    = /(pr0)|(pr0gramm)|(würde)|(fliesentisch)/i
-  news       = /(news|nachrichten|meldungen)(\s)?(\w*)/i
+  uptime       = /(uptime)|(onlinetime)|(how long are you online)|(onlinezeit)|(wielange bist du online)/i
+  pr0gramm     = /(pr0)|(pr0gramm)|(würde)|(fliesentisch)/i
+  news         = /(news|nachrichten|meldungen)(\s)?(\w*)/i
+
   robot.respond yousuck, (res) ->
     res.send ".. no you suck."
 
