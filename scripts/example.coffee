@@ -285,7 +285,6 @@ module.exports = (robot) ->
 
   robot.respond /(nachhilfe)|(mathehilfe)|(mathhelp)/i, (msg) ->
     res.reply "Hier sind meine Funktionen!\n\nWurzel:  sqrt(x)\n Faktor:  pow(x, y)\n Logarithmus:  log(x,y)\n\nWird erweitert, habe gerade keinen Bock weiter zu machen."
-  , 1000
 
   sieg = [
     "http://thejointblog.com/wp-content/uploads/2013/04/victory.jpg",
