@@ -12,58 +12,58 @@ module.exports = (robot) ->
 
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
-    
+
   robot.respond /open the (.*) doors/i, (res) ->
     doorType = res.match[1]
     if doorType is "pod bay"
       res.reply "I'm afraid I can't let you do that."
     else
       res.reply "Opening #{doorType} doors"
-    
+
   robot.hear /I like pie/i, (res) ->
     res.emote "makes a freshly baked pie"
-    
+
   lulz = ['lol', 'rofl', 'lmao']
-    
+
   robot.respond /lulz/i, (res) ->
     res.send res.random lulz
-    
+
   robot.topic (res) ->
     res.send "#{res.message.text}? That's a Paddlin'"
-    
+
   enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
   leaveReplies = ['Are you still there?', 'Target lost', 'Searching']
-    
+
   robot.enter (res) ->
     res.send res.random enterReplies
   robot.leave (res) ->
     res.send res.random leaveReplies
-    
+
   answer = process.env.HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING
-    
+
   robot.respond /what is the answer to the ultimate question of life/, (res) ->
     unless answer?
       res.send "Missing HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING in environment: please set and try again"
       return
     res.send "#{answer}, but what is the question?"
-    
+
   robot.respond /you are a little slow/, (res) ->
     setTimeout () ->
       res.send "Who you calling 'slow'?"
     , 60 * 1000
-    
+
   annoyIntervalId = null
-    
+
   robot.respond /annoy me/, (res) ->
     if annoyIntervalId
       res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
       return
-    
+
     res.send "Hey, want to hear the most annoying sound in the world?"
     annoyIntervalId = setInterval () ->
       res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
     , 1000
-    
+
   robot.respond /unannoy me/, (res) ->
     if annoyIntervalId
       res.send "GUYS, GUYS, GUYS!"
@@ -71,23 +71,23 @@ module.exports = (robot) ->
       annoyIntervalId = null
     else
       res.send "Not annoying you right now, am I?"
-    
-    
+
+
   robot.router.post '/hubot/chatsecrets/:room', (req, res) ->
     room   = req.params.room
     data   = JSON.parse req.body.payload
     secret = data.secret
-    
+
     robot.messageRoom room, "I have a secret: #{secret}"
-    
+
     res.send 'OK'
-    
+
     robot.error (err, res) ->
     robot.logger.error "DOES NOT COMPUTE"
-    
+
     if res?
       res.reply "DOES NOT COMPUTE"
-    
+
   robot.respond /have a soda/i, (res) ->
     sodasHad = robot.brain.get('totalSodas') * 1 or 0
     if sodasHad > 4
@@ -95,14 +95,14 @@ module.exports = (robot) ->
     else
       res.reply 'Sure!'
       robot.brain.set 'totalSodas', sodasHad+1
-    
+
   robot.respond /sleep it off/i, (res) ->
     robot.brain.set 'totalSodas', 0
     res.reply 'zzzzz'
 
-  ### 
-    @title 	Custom Hear Scripts 
-    @author Sven Liebig 
+  ###
+    @title 	Custom Hear Scripts
+    @author Sven Liebig
     @page 	https://github.com/Sly321
   ###
 
@@ -172,9 +172,9 @@ module.exports = (robot) ->
       return globalflag = false
     return
 
-  ### 
-    @title 	Custom Respond Scripts 
-    @author Sven Liebig 
+  ###
+    @title 	Custom Respond Scripts
+    @author Sven Liebig
     @author Cedric Laier
     @page 	https://github.com/Sly321
   ###
@@ -269,8 +269,7 @@ module.exports = (robot) ->
     totaltime = robot.brain.get('totaltime') * 1 or 0
     robot.brain.set 'totaltime', totaltime+1
   , 1000
- 
- ###
+
  # # CALCULATOR AND CONVERTER POWERED BY MATHJS - by Cedric Laier github.com/FICKDICHISTMIREGAL # # # # # # # # #
 
   mathjs = require("mathjs")
@@ -285,4 +284,40 @@ module.exports = (robot) ->
     robot.respond /(nachhilfe)|(mathehilfe)|(mathhelp)/i, (msg) ->
       res.reply "Hier sind meine Funktionen!\n\nWurzel:  sqrt(x)\n Faktor:  pow(x, y)\n Logarithmus:  log(x,y)\n\nWird erweitert, habe gerade keinen Bock weiter zu machen."
     , 1000
-###
+
+  sieg = [
+    "http://thejointblog.com/wp-content/uploads/2013/04/victory.jpg",
+    "http://www.quickmeme.com/img/ea/ea4671998341d9fbb6f7815394b49cb2890a50ac80b62802fb021c147c068d8e.jpg",
+    "http://cdn-media.hollywood.com/images/l/victory_620_080712.jpg",
+    "http://cf.chucklesnetwork.agj.co/items/5/5/9/6/0/one-does-not-simply-declare-victory-but-i-just-did.jpg",
+    "http://t.qkme.me/3qlspk.jpg",
+    "http://img.pandawhale.com/86036-victory-dance-gif-Despicable-M-EPnS.gif",
+    "http://1.bp.blogspot.com/-rmJLwpPevTg/UOEBgVNiVFI/AAAAAAAAFFY/-At3Z_DzBbw/s1600/dancing+charlie+murphy+animated+gif+victory+dance.gif",
+    "http://www.gifbin.com/bin/20048442yu.gif",
+    "http://www.quickmeme.com/img/30/300ace809c3c2dca48f2f55ca39cbab24693a9bd470867d2eb4e869c645acd42.jpg",
+    "http://jeffatom.files.wordpress.com/2013/09/winston-churchill-says-we-deserve-victory.jpg",
+    "http://i.imgur.com/lmmBt.gif",
+    "http://danceswithfat.files.wordpress.com/2011/08/victory.jpg",
+    "http://stuffpoint.com/family-guy/image/56246-family-guy-victory-is-his.gif",
+    "http://thelavisshow.files.wordpress.com/2012/06/victorya.jpg",
+    "http://alookintomymind.files.wordpress.com/2012/05/victory.jpg",
+    "http://rack.3.mshcdn.com/media/ZgkyMDEzLzA4LzA1L2QwL2JyYWRwaXR0LmJjMmQyLmdpZgpwCXRodW1iCTg1MHg1OTA-CmUJanBn/1a5a0c57/968/brad-pitt.jpg",
+    "http://rack.0.mshcdn.com/media/ZgkyMDEzLzA4LzA1L2ViL2hpZ2hzY2hvb2xtLjI4YjJhLmdpZgpwCXRodW1iCTg1MHg1OTA-CmUJanBn/4755556e/b82/high-school-musical-victory.jpg",
+    "http://rack.2.mshcdn.com/media/ZgkyMDEzLzA4LzA1L2ZkL25hcG9sZW9uZHluLjBiMTFlLmdpZgpwCXRodW1iCTg1MHg1OTA-CmUJanBn/8767246f/d7a/napoleon-dynamite.jpg",
+    "http://rack.0.mshcdn.com/media/ZgkyMDEzLzA4LzA1L2RiL3RvbWZlbGRvbi41NmRjNi5naWYKcAl0aHVtYgk4NTB4NTkwPgplCWpwZw/05cd12cc/645/tom-feldon.jpg",
+    "http://rack.3.mshcdn.com/media/ZgkyMDEzLzA4LzA1L2JmL2hpbXltLjU4YTEyLmdpZgpwCXRodW1iCTg1MHg1OTA-CmUJanBn/90a990f6/b38/himym.jpg",
+    "http://rack.3.mshcdn.com/media/ZgkyMDEzLzA4LzA1L2U1L2NvbGJlcnRyZXBvLjVjNmYxLmdpZgpwCXRodW1iCTg1MHg1OTA-CmUJanBn/710824a0/764/colbert-report.jpg",
+    "http://rack.1.mshcdn.com/media/ZgkyMDEzLzA4LzA1LzYyL2FuY2hvcm1hbi42NjJkYS5naWYKcAl0aHVtYgk4NTB4NTkwPgplCWpwZw/009ee80f/1c0/anchorman.jpg",
+    "http://rack.3.mshcdn.com/media/ZgkyMDEzLzA4LzA1LzFmL2hhcnJ5cG90dGVyLjYxNjYzLmdpZgpwCXRodW1iCTg1MHg1OTA-CmUJanBn/db79fc85/147/harry-potter.jpg",
+    "http://www.velocityindiana.org/wp-content/uploads/2014/08/bff.gif",
+    "http://i.kinja-img.com/gawker-media/image/upload/s--_dYUH9jW--/18vvnw5taib2ogif.gif",
+    "https://31.media.tumblr.com/e844e0925dbd8699ddb68fb2408d61b6/tumblr_mqrjr2oH0G1r3kc9vo1_250.gif",
+    "http://i.kinja-img.com/gawker-media/image/upload/s--0wAEcaN4--/c_fit,fl_progressive,q_80,w_636/bdbtzjrhyyuarpfbqksn.gif",
+    "http://media.giphy.com/media/vpybhig8QFLOM/giphy.gif",
+    "https://media.giphy.com/media/3o85xzwOcKkOw67ywg/giphy.gif",
+    "https://ladygeekgirl.files.wordpress.com/2012/01/1352309-huzzah1_super1.jpg"
+  ]
+
+
+  robot.hear /sieg\b/i, (msg) ->
+    msg.send msg.random sieg
