@@ -113,12 +113,13 @@ module.exports = (robot) ->
   thuglife 			= /thug life/i
   expiliarmus 	= /expiliarmus/i
   dislike 			= /dislike/i
-  winows 				= /winows/i
+  winows 				= /windows/i
   einzigste 		= /einzigste/i
   lebenshit 		= /(leben)(.)+(scheiße)/i
   operation 		= /(^|\s)(\d+\.?\d*)(\s)*(\+|\-|\/|\*)(\s)*(\d+\.?\d*)($|\s)/i
   newsarten			= /^(sport|league|it)$/i
-  globalflag    = false
+  newsToken     = false
+  newsUser      = "";
 
   robot.hear avadakedabra, (res) ->
     res.send "EXPILIARMUS! :nerd_face:"
@@ -134,7 +135,7 @@ module.exports = (robot) ->
   robot.hear dislike, (msg) ->
     msg.send "http://imgick.nola.com/home/nola-media/width620/img/pets_impact/photo/grumpy-catjpg-3ca3ff6a7951c9d2.jpg"
 
-  robot.hear winows, (msg) ->
+  robot.hear windows, (msg) ->
     msg.send "*windumb"
 
   robot.hear einzigste, (msg) ->
@@ -153,24 +154,26 @@ module.exports = (robot) ->
 
   robot.hear newsarten, (msg) ->
     art = undefined
-    if globalflag
+    if newsToken and msg.message.user.name == newsUser
       art = msg.match[1]
       switch art
         when 'sport'
           msg.send 'hier nachrichten sport einfügen'
-          return globalflag = false
+          return newsToken = false
         when 'league'
           msg.send 'hier nachrichten Leauge einfügen'
-          return globalflag = false
+          return newsToken = false
         when 'it'
           msg.send 'hier nachrichten IT einfügen'
-          return globalflag = false
+          return newsToken = false
         else
           msg.send 'Keine Nachrichten zu diesem Thema gefunden.'
-          return globalflag = false
+          return newsToken = false
+    else if msg.message.user.name != newsUser
+      console.log("ERROR: #{msg.message.user.name} ist nicht berechtigt die news von #{newsUser} anzusehen.")
     else
-      msg.send 'KEIN FLAG KEIN TEXT'
-      return globalflag = false
+      console.log("ERROR: Kein Token vergeben beim abgreifen von News. (User #{msg.message.user.name}");
+      return newsToken = false
     return
 
   ###
@@ -255,15 +258,29 @@ module.exports = (robot) ->
     res.reply "Darf es ein bisschen Pr0 sein?\n Nimm das: http://www.pr0gramm.com/new/#{pr0} :)"
 
   robot.respond news, (res) ->
+    if newsToken
+      console.error("ERROR: Newstoken bereits vergeben, Timeout von 30 sekunden läuft noch.");
+      return
     what = res.match[3];
-    res.reply "regexflag: #{what}"
+    console.log("2nd #{what}");
     switch what
       when "sport"
         res.reply "hier nachrichten für sport einfügen"
-        globalflag = false
+        newsToken = false
+      when "league"
+        res.reply "hier nachrichten für league einfügen"
+        newsToken = false
+      when "it"
+        res.reply "hier nachrichten für it einfügen"
+        newsToken = false
       else
-        res.reply "Welche Nachrichten?"
-        globalflag = true
+        newsUser = res.message.user.name
+        res.reply "Welche Nachrichten #{newsUser}?"
+        newsToken = true
+        setTimeout () ->
+          newsUser = ""
+          newsToken = false
+        , 30000
 
 # # TOTAL TIME COUNTER - by Sven Liebig https://github.com/Sly321 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
