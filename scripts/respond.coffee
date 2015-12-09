@@ -169,8 +169,10 @@ module.exports = (robot) ->
   robot.hear /sieg\b/i, (msg) ->
     msg.send msg.random sieg
 
-  robot.hear /kill yourself/i, (msg) ->
+  robot.respond /kill yourself/i, (msg) ->
     msg.send "Ok bye :cry:"
     setInterval () ->
       msg.robot.shutdown()
     , 1000
+
+  robot.logger.info "Loaded script respond.coffee"

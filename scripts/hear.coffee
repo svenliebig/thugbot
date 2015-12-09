@@ -98,3 +98,5 @@ module.exports = (robot) ->
     if robot.name.toLowerCase() == msg.match[2].toLowerCase()
       byeMessage = goodbye(msg.message.user.name)
       msg.send(byeMessage)
+
+  robot.logger.info "Loaded script hear.coffee"
