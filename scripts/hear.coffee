@@ -22,8 +22,21 @@ einzigste 		= /einzigste/i
 lebenshit 		= /(leben)(.)+(scheiße)/i
 operation 		= /(^|\s)(\d+\.?\d*)(\s)*(\+|\-|\/|\*)(\s)*(\d+\.?\d*)($|\s)/i
 newsarten			= /^(sport|league|it)$/i
+byerobot      = /(bye|later|gute nacht|tschüss|tschüß|schlaf gut|bis später|hau rein|cucu|cu),?\s(.*)/i
 newsToken     = false
 newsUser      = "";
+goodbyes = [
+  "Bye, {name}.",
+  "Hauste, {name}.",
+  "Tschüss, {name}.",
+  "Bis dann, {name}.",
+  "Gehabt euch wohl, {name}."
+]
+
+goodbye = (name) ->
+  index = parseInt(Math.random() * goodbyes.length)
+  message = goodbyes[index]
+  message.replace(/{name}/, name);
 
 module.exports = (robot) ->
   robot.hear avadakedabra, (res) ->
@@ -80,21 +93,8 @@ module.exports = (robot) ->
       console.log("ERROR: Kein Token vergeben beim abgreifen von News. (User #{msg.message.user.name}");
       return newsToken = false
     return
-
-  goodbyes = [
-    "Bye, {name}.",
-    "Hauste, {name}.",
-    "Tschüss, {name}.",
-    "Bis dann, {name}.",
-    "Gehabt euch wohl, {name}."
-  ]
-
-  goodbye = (name) ->
-    index = parseInt(Math.random() * goodbyes.length)
-    message = goodbyes[index]
-    message.replace(/{name}/, name);
   
   robot.hear /(bye|later|gute nacht|tschüss|tschüß|schlaf gut|bis später|hau rein|cucu|cu),?\s(.*)/i, (msg) ->
     if robot.name.toLowerCase() == msg.match[2].toLowerCase()
       byeMessage = goodbye(msg.message.user.name)
-    msg.send(byeMessage)
+      msg.send(byeMessage)
